@@ -1,6 +1,7 @@
-# universe-starter-agent
+# universe-edo-agent
 
-The codebase implements a starter agent that can solve a number of `universe` environments.
+The codebase implements an edo agent based on the `universe starter agent`. 
+that can solve a number of [universe] (https://openai.com/blog/) environments.
 It contains a basic implementation of the [A3C algorithm](https://arxiv.org/abs/1602.01783), adapted for real-time environments.
 
 # Dependencies
@@ -37,9 +38,11 @@ To see window number 0, type: `ctrl-b 0`. Look up tmux documentation for more co
 
 To access TensorBoard to see various monitoring metrics of the agent, open [http://localhost:12345/](http://localhost:12345/) in a browser.
 
+<!---
 Using 16 workers, the agent should be able to solve `PongDeterministic-v3` (not VNC) within 30 minutes (often less) on an `m4.10xlarge` instance.
 Using 32 workers, the agent is able to solve the same environment in 10 minutes on an `m4.16xlarge` instance.
 If you run this experiment on a high-end macbook pro, the above job will take just under 2 hours to solve Pong.
+-->
 
 ![pong](https://github.com/openai/universe-starter-agent/raw/master/imgs/tb_pong.png "Pong")
 
@@ -47,6 +50,7 @@ For best performance, it is recommended for the number of workers to not exceed 
 
 You can stop the experiment with `tmux kill-session` command.
 
+<!---
 ## Playing games over remote desktop
 
 The main difference with the previous experiment is that now we are going to play the game through VNC protocol.
@@ -56,6 +60,7 @@ the experience should be similar to the agent as if it was played locally. The p
 because the observations and actions are delayed due to the latency induced by the network.
 
 More interestingly, you can also peek at what the agent is doing with a VNCViewer.
+-->
 
 Note that the default behavior of `train.py` is to start the remotes on a local machine. Take a look at https://github.com/openai/universe/blob/master/doc/remotes.rst for documentation on managing your remotes. Pass additional `-r` flag to point to pre-existing instances.
 
@@ -104,14 +109,17 @@ great emphasis on reaction time.
 
 ### A note on tuning
 
-This implementation has been tuned to do well on VNC Pong, and we do not guarantee
-its performance on other tasks.  It is meant as a starting point.
+The original implementation was tuned to do well on VNC Pong. We need to investigate
+the performance of the new algorithm with these settings. 
 
+It would be interesting to implement parameter auto tuning for other tasks.
+
+<!--
 ### Playing flash games
 
 You may run the following command to launch the agent on the game Neon Race:
 
-`python train.py --num-workers 2 --env-id flashgames.NeonRace-v0 --log-dir /tmp/neonrace`
+`python train.py -num-workers 2 -env-id flashgames.NeonRace-v0 -log-dir /tmp/neonrace`
 
 _What agent sees when playing Neon Race_
 (you can connect to this view via [note](#vnc-pong) above)
@@ -120,8 +128,16 @@ _What agent sees when playing Neon Race_
 Getting 80% of the maximal score takes between 1 and 2 hours with 16 workers, and getting to 100% of the score
 takes about 12 hours.  Also, flash games are run at 5fps by default, so it should be possible to productively
 use 16 workers on a machine with 8 (and possibly even 4) cores.
+-->
 
 ### Next steps
+1. Current Q-based Evolutionary Algorithm (QBEA) uses a Q-table for discrete values.
+Are changes required for the neural network function approximation?
+1. Current Q-based Evolutionary Algorithm (QBEA) uses rewards from a single time step.
+The `universe` environment batches updates across multiple (recommended 20) time steps
+1. Execute ac3ea.py
+1. Can EDO be used to evolve the learning policy on the runtime agent to help address network latency?
+1. Compare relative performance for training times and task success against the a3c starter agent.
+1. Where are the scores?
+1. What are a3cea's scores on other environments e.g. flash games?
 
-Now that you have seen an example agent, develop agents of your own.  We hope that you will find
-doing so to be an exciting and an enjoyable task.
