@@ -2,7 +2,7 @@
 
 The codebase implements an edo agent based on the `universe starter agent`. 
 that can solve a number of [universe] (https://openai.com/blog/) environments.
-It contains a basic implementation of the [A4C algorithm](https://arxiv.org/abs/1602.01783), adapted for real-time environments
+It contains a basic implementation of the [A3C algorithm](https://arxiv.org/abs/1602.01783), adapted for real-time environments
 that has been updated to implement a search on the reward function between taking actions on the environment.
 
 # Dependencies
